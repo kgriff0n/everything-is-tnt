@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "everything-is-tnt",
+	"version": "${version}",
+	"name": "Everything is TNT",
+	"description": "You can lit any block with flint and steel!",
+	"authors": [
+		"KGriffon"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/everything-is-tnt",
+		"sources": "https://github.com/kgriff0n/everything-is-tnt"
+	},
+	"license": "MIT",
+	"icon": "assets/everything-is-tnt/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.kgriff0n.EverythingIsTNT"
+		]
+	},
+	"mixins": [
+		"everything-is-tnt.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.6",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
