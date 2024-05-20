@@ -3,7 +3,7 @@
 	"id": "everything-is-tnt",
 	"version": "${version}",
 	"name": "Everything is TNT",
-	"description": "You can lit any block with flint and steel!",
+	"description": "You can light any block with flint and steel!",
 	"authors": [
 		"KGriffon"
 	],
