@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FlintAndSteelMixin {
 	@Inject(at = @At("HEAD"), method = "useOnBlock", cancellable = true)
 	private void init(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-		//TODO check dispensers, maybe null exception on context.getPlayer()
 		if (!context.getPlayer().isSneaking()) {
 			World world = context.getWorld();
 			BlockPos pos = context.getBlockPos();
