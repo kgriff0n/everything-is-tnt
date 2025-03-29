@@ -3,7 +3,9 @@
   "package": "io.github.kgriff0n.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "FlintAndSteelMixin"
+    "FlintAndSteelMixin",
+    "ItemMixin",
+    "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
