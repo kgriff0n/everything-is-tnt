@@ -37,7 +37,7 @@ public class FlintAndSteelMixin {
 			world.spawnEntity(blockTNT);
 
 			// cancel fire
-			cir.setReturnValue(ActionResult.SUCCESS);
+			cir.setReturnValue(ActionResult.SUCCESS_SERVER);
 		}
 	}
 }
