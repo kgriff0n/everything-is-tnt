@@ -7,10 +7,12 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.DamageTiltS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -64,22 +66,29 @@ public abstract class LivingEntityMixin implements IExplosiveEntity {
             }
 
             if (fuseTime == 30) {
+                fuseTime = 0;
+                ignited = false;
                 world.createExplosion(entity, entity.getX(), entity.getY(), entity.getZ(), ((LivingEntity) entity).getHealth() * 0.15f, World.ExplosionSourceType.MOB);
-                remove(Entity.RemovalReason.DISCARDED);
+                if (entity instanceof ServerPlayerEntity) {
+                    entity.kill((ServerWorld) world);
+                    scale.setBaseValue(1);
+                } else {
+                    remove(Entity.RemovalReason.DISCARDED);
+                }
             }
             fuseTime++;
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "writeCustomDataToNbt")
-    private void writeNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean("Ignited", ignited);
-        nbt.putInt("Fuse", fuseTime);
+    @Inject(at = @At("HEAD"), method = "writeCustomData")
+    private void writeData(WriteView view, CallbackInfo ci) {
+        view.putBoolean("Ignited", ignited);
+        view.putInt("Fuse", fuseTime);
     }
 
-    @Inject(at = @At("HEAD"), method = "readCustomDataFromNbt")
-    private void readNbt(NbtCompound nbt, CallbackInfo ci) {
-        ignited = nbt.getBoolean("Ignited", false);
-        fuseTime = nbt.getInt("Fuse", 0);
+    @Inject(at = @At("HEAD"), method = "readCustomData")
+    private void readData(ReadView view, CallbackInfo ci) {
+        ignited = view.getBoolean("Ignited", false);
+        fuseTime = view.getInt("Fuse", 0);
     }
 }
